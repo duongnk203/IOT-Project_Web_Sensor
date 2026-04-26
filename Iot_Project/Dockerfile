@@ -3,16 +3,14 @@ WORKDIR /src
 
 COPY . .
 
-# 👇 vào đúng folder chứa .csproj
-WORKDIR /src/Iot_Project/Iot_Project
+# 👇 chỉ định đúng file
+RUN dotnet restore Iot_Project/Iot_Project/Iot_Project.csproj
 
-RUN dotnet restore
-RUN dotnet publish -c Release -o /app/publish
+RUN dotnet publish Iot_Project/Iot_Project/Iot_Project.csproj -c Release -o /app/publish
 
 # Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-
 COPY --from=build /app/publish .
 
 ENV ASPNETCORE_URLS=http://+:10000
