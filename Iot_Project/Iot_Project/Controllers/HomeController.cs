@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Iot_Project.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iot_Project.Controllers
@@ -7,10 +8,36 @@ namespace Iot_Project.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
+        public ISensorDataService _sensorDataService;
+        public HomeController(ISensorDataService sensorDataService)
+        {
+            _sensorDataService = sensorDataService;
+        }
         [HttpGet]
         public IActionResult Get()
         {
             return Ok("Welcome to the IoT Project API!");
+        }
+
+        [HttpGet("latest")]
+        public IActionResult GetLatestData()
+        {
+            var sensorDataLatest = _sensorDataService.GetLatestSensorDataAsync();
+            return Ok(sensorDataLatest);
+        }
+
+        [HttpGet("MinMax")]
+        public async Task<IActionResult> GetData()
+        {
+            var minMaxData = await _sensorDataService.GetMinMaxSensorDataAsync();
+            return Ok(minMaxData);
+        }
+
+        [HttpGet("History")]
+        public IActionResult GetHistoryData()
+        {
+            var sensorDataHistory = _sensorDataService.GetHistorySensorDataAsync();
+            return Ok(sensorDataHistory);
         }
     }
 }
