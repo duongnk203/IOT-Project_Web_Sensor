@@ -7,6 +7,10 @@ namespace Iot_Project.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
-
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok("Welcome to the IoT Project API!");
+        }
     }
 }
