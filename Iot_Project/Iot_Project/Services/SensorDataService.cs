@@ -80,7 +80,7 @@ namespace Iot_Project.Services
 
         public Task<List<SensorDataDto>> GetHistorySensorDataAsync()
         {
-            var sensorDataHistory = _context.SensorData.OrderByDescending(x => x.CreatedAt).Take(2).ToList();
+            var sensorDataHistory = _context.SensorData.OrderByDescending(x => x.CreatedAt).Take(10).ToList();
 
             var sensorDataDtoList = sensorDataHistory.Select(x => new SensorDataDto
             {
