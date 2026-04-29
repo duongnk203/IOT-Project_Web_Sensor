@@ -1,4 +1,5 @@
-﻿using Iot_Project.Services;
+﻿using Iot_Project.Dtos;
+using Iot_Project.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,6 +39,17 @@ namespace Iot_Project.Controllers
         {
             var sensorDataHistory = _sensorDataService.GetHistorySensorDataAsync();
             return Ok(sensorDataHistory);
+        }
+
+        [HttpPost("sensor-data")]
+        public async Task<IActionResult> PostSensorData([FromBody] ReceivedData data)
+        {
+            if (data == null)
+            {
+                return BadRequest("Invalid sensor data.");
+            }
+            await _sensorDataService.SaveSensorDataAsync(data);
+            return Ok("Sensor data received and saved successfully.");
         }
     }
 }

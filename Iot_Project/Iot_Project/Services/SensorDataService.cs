@@ -10,6 +10,7 @@ namespace Iot_Project.Services
         Task<SensorDataMinMax> GetMinMaxSensorDataAsync();
         Task<SensorDataDto> GetLatestSensorDataAsync();
         Task<List<SensorDataDto>> GetHistorySensorDataAsync();
+        Task SaveSensorDataAsync(ReceivedData data);
     }
     public class SensorDataService : ISensorDataService
     {
@@ -93,6 +94,22 @@ namespace Iot_Project.Services
             }).ToList();
 
             return Task.FromResult(sensorDataDtoList);
+        }
+
+        public async Task SaveSensorDataAsync(ReceivedData data)
+        {
+            var sensorData = new SensorDatum
+            {
+                Temperature = data.Temperature,
+                Humidity = data.Humidity,
+                Co2 = data.Status.Contains("CO2") ? double.Parse(data.Status.Split(':')[1]) : (double?)null,
+                Pm10 = 0, // Assuming PM2.5 is stored in Pm10 for simplicity
+                Pm25 = data.PM25,
+                CreatedAt = data.CreatedAt
+            };
+
+            _context.SensorData.Add(sensorData);
+            await _context.SaveChangesAsync();
         }
     }
 }
