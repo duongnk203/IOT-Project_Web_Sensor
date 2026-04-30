@@ -25,7 +25,8 @@ builder.Services.AddCors(options =>
                 "http://127.0.0.1:5173"
             )
             .AllowAnyHeader()
-            .AllowAnyMethod();
+            .AllowAnyMethod()
+            .AllowCredentials();
     });
 });
 var app = builder.Build();
@@ -36,7 +37,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseHttpsRedirection();
+app.UseRouting();
+
 app.UseCors("MyCors");
 
 app.UseAuthorization();
