@@ -71,8 +71,20 @@ namespace Iot_Project.Services
                 Temperature = sensorDataLatest.Temperature,
                 Humidity = sensorDataLatest.Humidity,
                 Co2 = sensorDataLatest.Co2,
-                Pm10 = sensorDataLatest.Pm10,
-                Pm25 = sensorDataLatest.Pm25,
+                PM10 = sensorDataLatest.Pm10,
+                PM25 = sensorDataLatest.Pm25,
+                Smoke = sensorDataLatest.Smoke,
+                Relay1 = sensorDataLatest.Relay1,
+                Relay2 = sensorDataLatest.Relay2,
+                EnvAlarm = sensorDataLatest.EnvAlarm,
+                DryAlarm = sensorDataLatest.DryAlarm,
+                CarState = sensorDataLatest.CarState,
+                ThresholdHum = sensorDataLatest.ThresholdHum,
+                ThresholdPm25 = sensorDataLatest.ThresholdPm25,
+                Speed = sensorDataLatest.Speed,
+                Kp = sensorDataLatest.Kp,
+                Ki = sensorDataLatest.Ki,
+                Kd = sensorDataLatest.Kd,
                 CreatedAt = sensorDataLatest.CreatedAt
             };
 
@@ -88,8 +100,10 @@ namespace Iot_Project.Services
                 Temperature = x.Temperature,
                 Humidity = x.Humidity,
                 Co2 = x.Co2,
-                Pm10 = x.Pm10,
-                Pm25 = x.Pm25,
+                PM1 = x.Pm10,
+                PM25 = x.Pm25,
+                PM10 = x.Pm10,
+                
                 CreatedAt = x.CreatedAt
             }).ToList();
 
@@ -106,7 +120,7 @@ namespace Iot_Project.Services
                 Pm101 = data.PM1,
                 Pm10 = data.PM10,
                 Pm25 = data.PM25,
-                CreatedAt = DateTime.UtcNow,
+                CreatedAt = DateTime.Now,
                 DeviceId = data.DeviceId,
                 Smoke = data.Smoke,
                 Relay1 = data.Relay1,
