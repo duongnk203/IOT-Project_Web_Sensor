@@ -102,10 +102,24 @@ namespace Iot_Project.Services
             {
                 Temperature = data.Temperature,
                 Humidity = data.Humidity,
-                Co2 = data.Status.Contains("CO2") ? double.Parse(data.Status.Split(':')[1]) : (double?)null,
-                Pm10 = 0, // Assuming PM2.5 is stored in Pm10 for simplicity
+                Co2 = data.CarState.Contains("CO2") ? double.Parse(data.CarState.Split(':')[1]) : (double?)null,
+                Pm101 = data.PM1,
+                Pm10 = data.PM10,
                 Pm25 = data.PM25,
-                CreatedAt = data.CreatedAt
+                CreatedAt = DateTime.UtcNow,
+                DeviceId = data.DeviceId,
+                Smoke = data.Smoke,
+                Relay1 = data.Relay1,
+                Relay2 = data.Relay2,
+                EnvAlarm = data.EnvAlarm,
+                DryAlarm = data.DryAlarm,
+                CarState = data.CarState,
+                ThresholdPm25 = data.ThresholdPm25,
+                ThresholdHum = data.ThresholdHum,
+                Speed = data.Speed,
+                Kp = data.Kp,
+                Ki = data.Ki,
+                Kd = data.Kd
             };
 
             _context.SensorData.Add(sensorData);

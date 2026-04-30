@@ -33,13 +33,23 @@ public partial class _00IotProjectContext : DbContext
 
             entity.HasIndex(e => e.CreatedAt, "IX_SensorData_CreatedAt").IsDescending();
 
+            entity.Property(e => e.CarState)
+                .HasMaxLength(1)
+                .HasColumnName("CarState ");
             entity.Property(e => e.Co2).HasColumnName("CO2");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
+            entity.Property(e => e.DeviceId).HasMaxLength(500);
+            entity.Property(e => e.DryAlarm).HasColumnName("DryAlarm ");
+            entity.Property(e => e.EnvAlarm).HasColumnName("EnvAlarm ");
             entity.Property(e => e.Pm10).HasColumnName("PM1_0");
             entity.Property(e => e.Pm101).HasColumnName("PM10");
             entity.Property(e => e.Pm25).HasColumnName("PM2_5");
+            entity.Property(e => e.Relay1).HasColumnName("Relay_1");
+            entity.Property(e => e.Relay2).HasColumnName("Relay_2");
+            entity.Property(e => e.ThresholdHum).HasColumnName("ThresholdHum ");
+            entity.Property(e => e.ThresholdPm25).HasColumnName("ThresholdPM25 ");
         });
 
         OnModelCreatingPartial(modelBuilder);
