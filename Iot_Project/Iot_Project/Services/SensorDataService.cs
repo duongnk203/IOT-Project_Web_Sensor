@@ -102,7 +102,7 @@ namespace Iot_Project.Services
             {
                 Temperature = data.Temperature,
                 Humidity = data.Humidity,
-                Co2 = data.CarState.Contains("CO2") ? double.Parse(data.CarState.Split(':')[1]) : (double?)null,
+                Co2 = 0,
                 Pm101 = data.PM1,
                 Pm10 = data.PM10,
                 Pm25 = data.PM25,
