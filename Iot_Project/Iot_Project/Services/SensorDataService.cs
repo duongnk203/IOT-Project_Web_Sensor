@@ -103,7 +103,18 @@ namespace Iot_Project.Services
                 PM1 = x.Pm10,
                 PM25 = x.Pm25,
                 PM10 = x.Pm10,
-                
+                Smoke = x.Smoke,
+                Relay1 = x.Relay1,
+                Relay2 = x.Relay2,
+                EnvAlarm = x.EnvAlarm,
+                DryAlarm = x.DryAlarm,
+                CarState = x.CarState,
+                ThresholdHum = x.ThresholdHum,
+                ThresholdPm25 = x.ThresholdPm25,
+                Speed = x.Speed,
+                Kp = x.Kp,
+                Ki = x.Ki,
+                Kd = x.Kd,
                 CreatedAt = x.CreatedAt
             }).ToList();
 
