@@ -34,7 +34,7 @@ public partial class _00IotProjectContext : DbContext
             entity.HasIndex(e => e.CreatedAt, "IX_SensorData_CreatedAt").IsDescending();
 
             entity.Property(e => e.CarState)
-                .HasMaxLength(1)
+                .HasMaxLength(500)
                 .HasColumnName("CarState ");
             entity.Property(e => e.Co2).HasColumnName("CO2");
             entity.Property(e => e.CreatedAt)
