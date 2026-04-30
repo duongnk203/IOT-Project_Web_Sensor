@@ -6,11 +6,14 @@ namespace Iot_Project.Services
 {
     public interface ISensorDataService
     {
-        // Define methods for fetching and processing sensor data, e.g.:
         Task<SensorDataMinMax> GetMinMaxSensorDataAsync();
         Task<SensorDataDto> GetLatestSensorDataAsync();
         Task<List<SensorDataDto>> GetHistorySensorDataAsync();
         Task SaveSensorDataAsync(ReceivedData data);
+        Task UpdateDeviceConfigAsync(DeviceConfigDto dto);
+        Task CreateDeviceCommand(DeviceCommandDto dto);
+        Task<DeviceConfigDto> GetDeviceConfigAsync();
+        Task<DeviceCommandDto> GetLatestDeviceCommandAsync();
     }
     public class SensorDataService : ISensorDataService
     {
@@ -149,6 +152,60 @@ namespace Iot_Project.Services
 
             _context.SensorData.Add(sensorData);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateDeviceConfigAsync(DeviceConfigDto dto)
+        {
+            var latestData = await _context.SensorData.OrderByDescending(x => x.CreatedAt).FirstOrDefaultAsync();
+            if (latestData != null)
+            {
+                latestData.ThresholdPm25 = dto.ThresholdPm25;
+                latestData.ThresholdHum = dto.ThresholdHum;
+                latestData.Speed = dto.Speed;
+                latestData.Kp = dto.Kp;
+                latestData.Ki = dto.Ki;
+                latestData.Kd = dto.Kd;
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task CreateDeviceCommand(DeviceCommandDto dto)
+        {
+            var command = new DeviceCommand
+            {
+                DeviceId = dto.DeviceId,
+                Command = dto.Command,
+            };
+            _context.DeviceCommands.Add(command);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<DeviceConfigDto> GetDeviceConfigAsync()
+        {
+            var deviceConfig = await _context.DeviceConfigs.OrderByDescending(x => x.UpdatedAt).Select(x => new DeviceConfigDto
+            {
+                ThresholdPm25 = x.ThresholdPm25,
+                ThresholdHum = x.ThresholdHum,
+                Speed = x.Speed,
+                Kp = x.Kp,
+                Ki = x.Ki,
+                Kd = x.Kd
+            }).FirstOrDefaultAsync();
+            return deviceConfig;
+        }
+
+        public async Task<DeviceCommandDto> GetLatestDeviceCommandAsync()
+        {
+            var latestCommand = await _context.DeviceCommands.OrderByDescending(x => x.CreatedAt).FirstOrDefaultAsync();
+            if (latestCommand == null)
+            {
+                return null;
+            }
+            return new DeviceCommandDto
+            {
+                DeviceId = latestCommand.DeviceId,
+                Command = latestCommand.Command
+            };
         }
     }
 }

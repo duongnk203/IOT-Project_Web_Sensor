@@ -15,6 +15,10 @@ public partial class _00IotProjectContext : DbContext
     {
     }
 
+    public virtual DbSet<DeviceCommand> DeviceCommands { get; set; }
+
+    public virtual DbSet<DeviceConfig> DeviceConfigs { get; set; }
+
     public virtual DbSet<SensorDatum> SensorData { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -27,6 +31,31 @@ public partial class _00IotProjectContext : DbContext
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<DeviceCommand>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("DeviceCommand");
+
+            entity.Property(e => e.Command)
+                .HasMaxLength(150)
+                .IsUnicode(false);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.DeviceId).HasMaxLength(500);
+        });
+
+        modelBuilder.Entity<DeviceConfig>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("DeviceConfig");
+
+            entity.Property(e => e.DeviceId).HasMaxLength(500);
+            entity.Property(e => e.ThresholdHum).HasColumnName("ThresholdHum ");
+            entity.Property(e => e.ThresholdPm25).HasColumnName("ThresholdPM25 ");
+            entity.Property(e => e.UpdatedAt).HasDefaultValueSql("(getdate())");
+        });
+
         modelBuilder.Entity<SensorDatum>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__SensorDa__3214EC0704B1A8F7");

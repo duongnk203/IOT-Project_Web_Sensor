@@ -2,6 +2,7 @@
 using Iot_Project.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iot_Project.Controllers
 {
@@ -51,5 +52,38 @@ namespace Iot_Project.Controllers
             await _sensorDataService.SaveSensorDataAsync(data);
             return Ok("Sensor data received and saved successfully.");
         }
+
+        [HttpGet("device-config")]
+        public async Task<IActionResult> GetConfig()
+        {
+            var config = await _sensorDataService.GetDeviceConfigAsync();
+            return Ok(config);
+        }
+
+        [HttpPost("device-config")]
+        public async Task<IActionResult> SaveConfig([FromBody] DeviceConfigDto dto)
+        {
+            await _sensorDataService.UpdateDeviceConfigAsync(dto);
+            return Ok("Device configuration updated successfully.");
+        }
+
+        [HttpGet("device-command")] 
+        public async Task<IActionResult> GetCommand()
+        {
+            var command = await _sensorDataService.GetLatestDeviceCommandAsync();
+            if (command == null)
+            {
+                return NotFound("No commands found.");
+            }
+            return Ok(command);
+        }
+
+        [HttpPost("device-command")]
+        public async Task<IActionResult> SendCommand([FromBody] DeviceCommandDto dto)
+        {
+            await _sensorDataService.CreateDeviceCommand(dto);
+            return Ok($"Received command: {dto.Command}");
+        }
+
     }
 }

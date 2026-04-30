@@ -43,4 +43,26 @@
         public double? Kd { get; set; }
         public DateTime? CreatedAt { get; set; }
     }
+
+    public class DeviceConfigDto
+    {
+        public int? ThresholdPm25 { get; set; }
+
+        public double? ThresholdHum { get; set; }
+
+        public int? Speed { get; set; }
+
+        public double? Kp { get; set; }
+
+        public double? Ki { get; set; }
+
+        public double? Kd { get; set; }
+    }
+
+    public class DeviceCommandDto
+    {
+        public string DeviceId { get; set; }
+        public string Command { get; set; }
+    }
+
 }
