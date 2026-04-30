@@ -33,9 +33,9 @@ public partial class _00IotProjectContext : DbContext
     {
         modelBuilder.Entity<DeviceCommand>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("DeviceCommand");
+            entity.HasKey(e => e.Id).HasName("PK__DeviceCo__3214EC071123AAA9");
+
+            entity.ToTable("DeviceCommand");
 
             entity.Property(e => e.Command)
                 .HasMaxLength(150)
@@ -46,9 +46,9 @@ public partial class _00IotProjectContext : DbContext
 
         modelBuilder.Entity<DeviceConfig>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("DeviceConfig");
+            entity.HasKey(e => e.Id).HasName("PK__DeviceCo__3214EC07142A05D3");
+
+            entity.ToTable("DeviceConfig");
 
             entity.Property(e => e.DeviceId).HasMaxLength(500);
             entity.Property(e => e.ThresholdHum).HasColumnName("ThresholdHum ");
