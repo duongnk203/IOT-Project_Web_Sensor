@@ -134,7 +134,6 @@ namespace Iot_Project.Services
                 Pm101 = data.PM1,
                 Pm10 = data.PM10,
                 Pm25 = data.PM25,
-                CreatedAt = DateTime.Now,
                 DeviceId = data.DeviceId,
                 Smoke = data.Smoke,
                 Relay1 = data.Relay1,
@@ -156,7 +155,7 @@ namespace Iot_Project.Services
 
         public async Task UpdateDeviceConfigAsync(DeviceConfigDto dto)
         {
-            var latestData = await _context.SensorData.OrderByDescending(x => x.CreatedAt).FirstOrDefaultAsync();
+            var latestData = await _context.DeviceConfigs.OrderByDescending(x => x.UpdatedAt).FirstOrDefaultAsync();
             if (latestData != null)
             {
                 latestData.ThresholdPm25 = dto.ThresholdPm25;
@@ -173,10 +172,12 @@ namespace Iot_Project.Services
         {
             var command = new DeviceCommand
             {
+                Id = 1,
                 DeviceId = dto.DeviceId,
                 Command = dto.Command,
+                CreatedAt = DateTime.Now
             };
-            _context.DeviceCommands.Add(command);
+            _context.DeviceCommands.Update(command);
             await _context.SaveChangesAsync();
         }
 
