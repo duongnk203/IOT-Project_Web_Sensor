@@ -22,7 +22,8 @@ builder.Services.AddCors(options =>
         policy.WithOrigins(
                 "http://localhost:5173",
                 "http://localhost:3000",
-                "http://127.0.0.1:5173"
+                "http://127.0.0.1:5173",
+                "https://io-t-project-web-n0fjz9klj-duongnk203s-projects.vercel.app"
             )
             .AllowAnyHeader()
             .AllowAnyMethod()
