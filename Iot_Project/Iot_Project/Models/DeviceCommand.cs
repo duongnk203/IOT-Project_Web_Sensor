@@ -12,4 +12,16 @@ public partial class DeviceCommand
     public string? Command { get; set; }
 
     public DateTime? CreatedAt { get; set; }
+
+    public string? Mode { get; set; }
+
+    public int? Speed { get; set; }
+
+    public int? DurationMs { get; set; }
+
+    public bool IsProcessed { get; set; }
+
+    public DateTime? ProcessedAt { get; set; }
+
+    public DateTime UpdatedAt { get; set; }
 }

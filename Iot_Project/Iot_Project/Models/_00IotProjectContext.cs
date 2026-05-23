@@ -37,11 +37,13 @@ public partial class _00IotProjectContext : DbContext
 
             entity.ToTable("DeviceCommand");
 
-            entity.Property(e => e.Command)
-                .HasMaxLength(150)
-                .IsUnicode(false);
+            entity.HasIndex(e => new { e.DeviceId, e.IsProcessed, e.CreatedAt }, "IX_DeviceCommand_DeviceId_IsProcessed_CreatedAt").IsDescending(false, false, true);
+
+            entity.Property(e => e.Command).HasMaxLength(50);
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.DeviceId).HasMaxLength(500);
+            entity.Property(e => e.Mode).HasMaxLength(20);
+            entity.Property(e => e.UpdatedAt).HasDefaultValueSql("(getdate())");
         });
 
         modelBuilder.Entity<DeviceConfig>(entity =>
@@ -67,7 +69,7 @@ public partial class _00IotProjectContext : DbContext
                 .HasColumnName("CarState ");
             entity.Property(e => e.Co2).HasColumnName("CO2");
             entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("(getdate())")
+                .HasDefaultValueSql("(sysdatetime())")
                 .HasColumnType("datetime");
             entity.Property(e => e.DeviceId).HasMaxLength(500);
             entity.Property(e => e.DryAlarm).HasColumnName("DryAlarm ");

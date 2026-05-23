@@ -61,8 +61,12 @@
 
     public class DeviceCommandDto
     {
-        public string DeviceId { get; set; }
-        public string Command { get; set; }
+        public string? DeviceId { get; set; }
+        public string? Mode { get; set; }
+        public string? Command { get; set; }
+        public int? Speed { get; set; }
+        public int? DurationMs { get; set; }
+        public DateTime? CreatedAt { get; set; }
     }
 
 }

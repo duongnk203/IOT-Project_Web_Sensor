@@ -170,14 +170,21 @@ namespace Iot_Project.Services
 
         public async Task CreateDeviceCommand(DeviceCommandDto dto)
         {
+            var now = DateTime.Now;
             var command = new DeviceCommand
             {
-                Id = 1,
-                DeviceId = dto.DeviceId,
-                Command = dto.Command,
-                CreatedAt = DateTime.Now
+                DeviceId = string.IsNullOrWhiteSpace(dto.DeviceId) ? "car_001" : dto.DeviceId,
+                Mode = string.IsNullOrWhiteSpace(dto.Mode) ? "AUTO" : dto.Mode.ToUpperInvariant(),
+                Command = string.IsNullOrWhiteSpace(dto.Command) ? "STOP" : dto.Command.ToUpperInvariant(),
+                Speed = dto.Speed,
+                DurationMs = dto.DurationMs,
+                IsProcessed = false,
+                ProcessedAt = null,
+                CreatedAt = now,
+                UpdatedAt = now
             };
-            _context.DeviceCommands.Update(command);
+
+            _context.DeviceCommands.Add(command);
             await _context.SaveChangesAsync();
         }
 
@@ -197,15 +204,30 @@ namespace Iot_Project.Services
 
         public async Task<DeviceCommandDto> GetLatestDeviceCommandAsync()
         {
-            var latestCommand = await _context.DeviceCommands.OrderByDescending(x => x.CreatedAt).FirstOrDefaultAsync();
+            var deviceId = "car_001";
+            var latestCommand = await _context.DeviceCommands
+                .Where(x => x.DeviceId == deviceId && !x.IsProcessed)
+                .OrderByDescending(x => x.CreatedAt)
+                .FirstOrDefaultAsync();
+
             if (latestCommand == null)
             {
                 return null;
             }
+
+            latestCommand.IsProcessed = true;
+            latestCommand.ProcessedAt = DateTime.Now;
+            latestCommand.UpdatedAt = DateTime.Now;
+            await _context.SaveChangesAsync();
+
             return new DeviceCommandDto
             {
                 DeviceId = latestCommand.DeviceId,
-                Command = latestCommand.Command
+                Mode = latestCommand.Mode,
+                Command = latestCommand.Command,
+                Speed = latestCommand.Speed,
+                DurationMs = latestCommand.DurationMs,
+                CreatedAt = latestCommand.CreatedAt
             };
         }
     }
