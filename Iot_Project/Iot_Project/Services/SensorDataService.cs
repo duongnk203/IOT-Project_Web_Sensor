@@ -174,8 +174,9 @@ namespace Iot_Project.Services
             var command = new DeviceCommand
             {
                 DeviceId = string.IsNullOrWhiteSpace(dto.DeviceId) ? "car_001" : dto.DeviceId,
-                Mode = string.IsNullOrWhiteSpace(dto.Mode) ? "AUTO" : dto.Mode.ToUpperInvariant(),
-                Command = string.IsNullOrWhiteSpace(dto.Command) ? "STOP" : dto.Command.ToUpperInvariant(),
+                // Bỏ ép default "AUTO"/"STOP" để tránh ghi đè logic latching của ESP
+                Mode = string.IsNullOrWhiteSpace(dto.Mode) ? null : dto.Mode.ToUpperInvariant(),
+                Command = string.IsNullOrWhiteSpace(dto.Command) ? null : dto.Command.ToUpperInvariant(),
                 Speed = dto.Speed,
                 DurationMs = dto.DurationMs,
                 IsProcessed = false,
